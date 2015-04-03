@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Shalok - Music store </title>
+
+
+<!-  system default files -->
+<link rel="stylesheet" href="/static/bootstrap-3.2.0/css/bootstrap.css" media="all">
+<link rel="stylesheet" href="/static/bootstrap-3.2.0/css/styles.css" media="all">
+<link href="/static/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
+<link href="/static/font-awesome-4.2.0/css/font-awesome-animation.min.css" rel="stylesheet" type="text/css" media="all">
+<script src="/static/jquery/jquery-1.11.1.min.js"></script>
+<script src="/static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+
+<!-  custom css files -->
+<link href="/static/CSS/style.css" rel="stylesheet" type="text/css"> 
+
+<style type="text/css">
+	.popUp1{
+		display:none;
+		height:200px;
+		width: 500px;
+		border:1px solid #83881B;
+		z-index:10000;
+		overflow:hidden;
+		position: absolute;
+		top:200px;
+		left:350px;
+		background-color:#A7BC90;
+	}
+	#spanSize20{
+		font-size: 20px;
+		text-align: center;
+	}
+}
+
+
+</style>
+
+
+</head>
+<body>
+<div id='cssmenu'>
+<ul>
+   <li class='active'><a target=_self href="/"><span>Home</span></a></li>
+   <li><a href='/trending/'><span>Top 10</span></a></li>
+   <li class='last'><a onClick="showPopUp();" href='#'><span>Add New Playlist</span></a></li>
+</ul>
+</div>
+
+<button onclick="checkPlaylist()">ADD TO PLAYLIST</button>
+<h3>Album: {{album}}</h3>
+<h3>Favorite: {{album.favorite}}</h3>
+{% for data in songs %}
+   <p><input type="checkbox" name="type" value="{{data.id}}"> {{data.song}}&nbsp;&nbsp;&nbsp;&nbsp;{{data.size}} <span class="badge">{{data.like}} </span></p>
+{% endfor %}
+<p>copyright &copy; 2014, {{copyright}}</p>
+
+
+
+<script type="text/javascript">
+function checkPlaylist(){
+var i={{ playlist|length }}
+if(i==0)
+ShowPlaylist();
+else 
+ShowPlaylistradio();
+}
+function ShowPlaylist(){
+//var i={{playlist}};
+//alert("i");
+$("#p1").show();
+
+}
+function closePopUpradio(){
+$("#p2").hide();
+}
+function showPopUp(){
+$("#p1").show();
+}
+function closePopUp(){
+$("#p1").hide();
+}
+function ShowPlaylistradio(){
+//var i={{playlist}};
+//alert("i");
+$("#p2").show();
+
+}
+function showConfirm(){
+if(document.getElementById("playlistName").value=='')
+	alert("Enter Playlist name");
+else{
+	alert("Saved SuccessFully");
+	$("#p1").hide();
+	}
+}
+function showConfirmradio(){
+	if ($('input[name=playlist]:checked').length <= 0) {
+	    alert("No radio checked")
+	}
+        else
+	{
+        myFunction();
+	alert("Saved SuccessFully"); 
+	$("#p2").hide();
+	}
+}
+function myFunction() {
+   var songsId=[];
+   $("input:checkbox[name=type]:checked").each(function()
+{
+    songsId.push($(this).val());
+    alert($(this).val());
+});
+   $.ajax({
+      url:'/addtoplaylist/',
+      type:'POST',
+      data: {'tasks[]': songsId},
+      dataType:'JSON',
+      error:function(err){alert(JSON.stringify(err));},
+      success:function(){alert('successfully added to playlist');}
+   });
+
+
+}
+</script>
+
+
+<div class="popUp1" id="p1">
+	<div class="">
+		<div class="" style="height:30px; width:100%; background-color:#839b4e"><p style="height:50px; width:100%;" onClick="closePopUp();"><img src="/static/img/Cancel.png" height="20px" style="margin-left:470px" alt=""></p></div>
+		<div class="">
+			<div class="" style="width: 85%; margin:auto; margin-top:60px ">
+				<span id="spanSize20">Name:</span>
+				<input id="playlistName" type="text" style="width:250px; height:30px;"/>
+				<input type="submit" onClick="showConfirm();" style="width:100px; height:30px;"/>
+			</div>
+`		</div>
+	</div>
+</div>
+
+
+
+
+<div class="popUp1" id="p2">
+	<div class="">
+		<div class="" style="height:30px; width:100%; background-color:#839b4e"><p style="height:50px; width:100%;" onClick="closePopUpradio();"><img src="/static/img/Cancel.png" height="20px" style="margin-left:470px" alt=""></p></div>
+		<div class="">
+			<div class="" style="width: 40%; margin:auto; margin-top:20px ">
+				<div class=""><span id="spanSize20">Select PlayList</span></div>
+				<div >
+{% for data in playlist %}
+   <p><input type="radio" name="playlist" value="{{data
+.id}}"> {{data.playlist_name}}&nbsp;</span></p>
+{% endfor %}
+
+<input type="submit" onClick="showConfirmradio();" style="width:100px; height:30px;"/>
+
+				</div>
+				
+			</div>
+`		</div>
+	</div>
+</div>
+
+</body>
+</html>

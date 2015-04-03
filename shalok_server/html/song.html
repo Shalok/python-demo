@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Shalok - Music store </title>
+
+
+<!-  system default files -->
+<link rel="stylesheet" href="/static/bootstrap-3.2.0/css/bootstrap.css" media="all">
+<link rel="stylesheet" href="/static/bootstrap-3.2.0/css/styles.css" media="all">
+<link href="/static/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
+<link href="/static/font-awesome-4.2.0/css/font-awesome-animation.min.css" rel="stylesheet" type="text/css" media="all">
+<script src="/static/jquery/jquery-1.11.1.min.js"></script>
+<script src="/static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+
+<!-  custom css files -->
+<link href="/static/CSS/style.css" rel="stylesheet" type="text/css"> 
+<style>
+table, th, td {
+    border: 2px solid #839b4e;
+    border-collapse: collapse;
+}
+th,td {
+    padding: 5px;
+	text-align: center;
+}
+</style>
+</head>
+<body>
+
+<div id='cssmenu'>
+<ul>
+   <li class='active'><a href='/'><span>Home</span></a></li>
+   <li><a href='/trending/'><span>Top 10</span></a></li>
+   <li class='last'><a href='#'><span>Contact</span></a></li>
+</ul>
+</div>
+<div style="width:90%; padding:20px">
+<div style="width:70%; margin:auto; margin-top:80px">
+	<h2 class="song _favorite" style="text-align: center; width:70%; margin:auto" data-id="{{song.id}}">ADD TO FAVORITE</h2>
+	<table style="width:70%; margin:auto"">
+		<tr><td><h3>Size:</h3></td> <td> <h3>{{songs.size}}</h3></td></tr>
+		<tr><td><h3>Album: </h3></td> <td> <h3>{{songs.album}}</h3></td></tr>
+		<tr><td><h3>Name: </h3></td> <td> <h3> {{songs.song}}</h3></td></tr>
+		<tr><td><h3>Like by: </h3></td> <td> <h3> {{songs.like}}</h3></td></tr>
+		
+	</table>
+</div>
+</div>
+<p>copyright &copy; 2014, {{copyright}}</p>
+
+<script type="text/javascript">
+ $(function(){
+   $('._album li').click(function(){
+       var id=$(this).attr('data-id');
+       window.open('/favorite/'+id);
+   });
+</script>
+</body>
+</html>

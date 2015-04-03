@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Shalok - Music store </title>
+
+
+<!-  system default files -->
+<link rel="stylesheet" href="/static/bootstrap-3.2.0/css/bootstrap.css" media="all">
+<link rel="stylesheet" href="/static/bootstrap-3.2.0/css/styles.css" media="all">
+<link href="/static/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all">
+<link href="/static/font-awesome-4.2.0/css/font-awesome-animation.min.css" rel="stylesheet" type="text/css" media="all">
+<script src="/static/jquery/jquery-1.11.1.min.js"></script>
+<script src="/static/bootstrap-3.2.0/js/bootstrap.min.js"></script>
+
+<!-  custom css files -->
+<link href="/static/CSS/style.css" rel="stylesheet" type="text/css"> 
+
+<style type="text/css">
+	.popUp1{
+		display:none;
+		height:200px;
+		width: 500px;
+		border:1px solid #83881B;
+		z-index:10000;
+		overflow:hidden;
+		position: absolute;
+		top:200px;
+		left:350px;
+		background-color:#A7BC90;
+	}
+	#spanSize20{
+		font-size: 20px;
+		text-align: center;
+	}
+}
+
+
+</style>
+
+
+</head>
+<body>
+<div id='cssmenu'>
+<ul>
+   <li ><a target=_self href='/'><span>Home</span></a></li>
+   <li><a href="/trending/"><span>Top 10</span></a></li>
+   <li><a href='#'><span>Company</span></a></li>
+   <li class='#'><a href='accounts/login'><span>Contact</span></a></li>
+    <li class='last'><a onClick="showPopUp();" href='#'><span>Add New Playlist</span></a></li>
+</ul>
+</div>
+
+
+
+<h2 class="heading">&nbsp; <span class="fa fa-cog fa-spin" style="color:#EA923F;"></span>  Shalok [music catlog] service is <span style="color:#009900;"> running ...</span> </h2>
+
+<h4>Songs:  {{songs|length}}</h4>
+<div style="display:none;">
+<p>Authentication backend :<b> {{backend}} </b> </p>
+<p>network authentication protocol : <b> {{protocol}} </b> </p>
+<p>client verification : <b> {{verification}} </b></p>
+<p>URL : <b> https://127.0.0.1:8015 </b></p>
+<p class="bg-success" style="margin-top:50px;">Connect type : <b> {{connection}} </b></p>
+</div>
+
+
+    <ul class="list-group _album" style="max-height:400px; border-bottom:1px solid #ccc;min-height:250px; overflow-y:auto;curser:default; ">
+    <h4>TOP ALBUMS :<span class="badge">{{services | length}} </span> </h4>
+    
+    {% for item in albums %}
+      <li data-id="{{item.album_id}}" class="list-group-item"> {{item.album_name}}&nbsp;&nbsp;&nbsp;&nbsp;{{item.musician_id}}<span class="badge">{{item.favorite}} </span></li>
+    {% endfor %}
+    </ul>
+
+<ul class="list-group _song" style="max-height:300px; overflow-y:auto; curser:default;">
+<h4>TOP SONGS :<span class="badge">{{services | length}} </span> </h4>
+{% for data in songs %}
+   <li  data-id="{{data.id}}" class="list-group-item"> {{data.song}}&nbsp;&nbsp;&nbsp;&nbsp;{{data.size}} <span class="badge">{{data.like}} </span></li>
+{% endfor %}
+</ul>
+
+
+<script type="text/javascript">
+ $(function(){
+   $('._album li').click(function(){
+       var id=$(this).attr('data-id');
+       window.open('/album/'+id+'/'+1,"_self");
+   });
+   $('._song li').click(function(){
+       var id=$(this).attr('data-id');
+       window.open('/song/'+id,"_self");
+   });
+});
+
+
+
+function showPopUp(){
+$("#p1").show();
+}
+function closePopUp(){
+$("#p1").hide();
+}
+function showConfirm(){
+if(document.getElementById("playlistName").value=='')
+	alert("Enter Playlist name");
+else{
+	alert("Saved SuccessFully");
+	$("#p1").hide();
+	}
+}
+</script>
+
+
+<p>copyright &copy; 2014, {{copyright}}</p>
+
+<div class="popUp1" id="p1">
+	<div class="">
+		<div class="" style="height:30px; width:100%; background-color:#839b4e"><p style="height:50px; width:100%;" onClick="closePopUp();"><img src="/static/img/Cancel.png" height="20px" style="margin-left:470px" alt=""></p></div>
+		<div class="">
+			<div class="" style="width: 85%; margin:auto; margin-top:60px ">
+				<span id="spanSize20">Name:</span>
+				<input id="playlistName" type="text" style="width:250px; height:30px;"/>
+				<input type="submit" onClick="showConfirm();" style="width:100px; height:30px;"/>
+			</div>
+`		</div>
+	</div>
+</div>
+
+
+</body>
+</html>
